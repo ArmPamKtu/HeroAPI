@@ -6,9 +6,10 @@ namespace Db.Entities
 {
     public class ProductVersion
     {
+        public int Id { get; set; }
+        public DateTime Created { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime Created { get; set; }
         public int Cost { get; set; }
         public bool SoftDelete { get; set; }
         public string UrlImg { get; set; }

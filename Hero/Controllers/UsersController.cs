@@ -30,7 +30,9 @@ namespace Hero.Controllers
         async public Task<ActionResult> Post([FromBody] UserDto userDto)
         {
             // decryptinti reikes db ir susiuziureti ar yra toks vartotojas
-            var users = _userLogic.GetAll().ToList();
+
+
+            _userLogic.Create(userDto);
             return Ok();
         }
 

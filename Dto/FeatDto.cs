@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Db.Entities
+namespace Dto
 {
-    public class Feat
+    public class FeatDto
     {
+        public int Id { get; set; }
         public Guid FromGuid { get; set; }
         public Guid ToUserGuid { get; set; }
         public int Value { get; set; }

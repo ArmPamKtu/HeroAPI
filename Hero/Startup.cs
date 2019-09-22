@@ -36,7 +36,7 @@ namespace Hero
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Logic.Startup.TypeRegistration(services, Configuration);
         }
 

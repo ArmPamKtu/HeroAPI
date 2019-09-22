@@ -12,6 +12,10 @@ namespace Db
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Feat> Feat { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ProductVersion> ProductVersion { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
 
         /// <summary>
         ///     Add any Db Configurations here

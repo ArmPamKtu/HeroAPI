@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Db.Entities
+namespace Dto
 {
-    public class Product
+    public class ProductDto
     {
-        public int Quantity { get; set; }
+        public int Id { get; set; }
         public DateTime Created { get; set; }
+        public int Quantity { get; set; }
         public bool IsInStore { get; set; }
         public bool IsOrderable { get; set; }
-        public ICollection<ProductVersion> ProductVersion { get; set; }
+      
     }
 }

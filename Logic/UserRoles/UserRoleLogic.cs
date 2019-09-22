@@ -16,6 +16,7 @@ namespace Logic.UserRoles
 
         }
 
+
         public ICollection<UserRoleDto> GetUserRoles(Guid guid)
         {
             var userRoles = Repository.GetMany(x => x.UserGuid == guid);

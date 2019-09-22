@@ -5,6 +5,10 @@ using DbManager.Generic;
 using Dto;
 using Logic.Generic;
 using Logic.Users;
+using Logic.Products;
+using Logic.ProductVersions;
+using Logic.Feats;
+using Logic.UserRoles;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +34,10 @@ namespace Logic
         public static void RepositoryRegistration(IServiceCollection services)
         {
             services.AddScoped<IRepository<User>, GenericRepository<User>>();
-            
+            services.AddScoped<IRepository<UserRole>, GenericRepository<UserRole>>();
+            services.AddScoped<IRepository<Product>, GenericRepository<Product>>();
+            services.AddScoped<IRepository<ProductVersion>, GenericRepository<ProductVersion>>();
+            services.AddScoped<IRepository<Feat>, GenericRepository<Feat>>();
         }
 
         public static void TypeRegistration(IServiceCollection services, IConfiguration config)
@@ -43,9 +50,17 @@ namespace Logic
             RepositoryRegistration(services); //Register Repositories
 
             services.AddScoped<IUserLogic, UserLogic>();
+            services.AddScoped<IProductLogic, ProductLogic>();
+            services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
+            services.AddScoped<IUserRoleLogic, UserRoleLogic>();
+            services.AddScoped<IFeatLogic, FeatLogic>();
 
 
             services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();
+            services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();
+            services.AddScoped<ILogic<ProductDto>, GenericLogic<IRepository<Product>, ProductDto, Product>>();
+            services.AddScoped<ILogic<ProductVersionDto>, GenericLogic<IRepository<ProductVersion>, ProductVersionDto, ProductVersion>>();
+            services.AddScoped<ILogic<FeatDto>, GenericLogic<IRepository<Feat>, FeatDto, Feat>>();
         }
     }
 }

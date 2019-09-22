@@ -3,6 +3,7 @@ using Db;
 using Db.Entities;
 using DbManager.Generic;
 using Dto;
+using Logic.Generic;
 using Logic.Users;
 
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,9 @@ namespace Logic
             RepositoryRegistration(services); //Register Repositories
 
             services.AddScoped<IUserLogic, UserLogic>();
-      
+
+
+            services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();
         }
     }
 }

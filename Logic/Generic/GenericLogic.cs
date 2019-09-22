@@ -37,6 +37,7 @@ namespace Logic.Generic
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                 }
             }
         }
@@ -157,6 +158,7 @@ namespace Logic.Generic
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                 }
             }
         }

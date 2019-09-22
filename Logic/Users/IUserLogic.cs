@@ -9,5 +9,6 @@ namespace Logic.Users
     {
         bool IsStoreManager(int i);
         ICollection<UserDto> GetAll();
+        ICollection<UserDto> GetUser(Guid guid);
     }
 }

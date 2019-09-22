@@ -1,4 +1,5 @@
-﻿using Db.Entities;
+﻿using AutoMapper;
+using Db.Entities;
 using DbManager.Generic;
 using Dto;
 using Logic.Generic;
@@ -14,6 +15,15 @@ namespace Logic.Users
         {
 
         }
+
+        public ICollection<UserDto> GetUser(Guid guid)
+        {
+            var user = Repository.GetMany(x => x.Id == guid);
+            var mappedUser = Mapper.Map<List<UserDto>>(user);
+
+            return mappedUser;
+        }
+
         public bool IsStoreManager(int i)
         {
             if(i > 0)

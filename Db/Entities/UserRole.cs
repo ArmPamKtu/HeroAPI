@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Db.Entities
 {
-    class UserRoles
+    public class UserRole
     {
         [Key]
         public Guid UserGuid { get; set; }

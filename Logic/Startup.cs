@@ -5,8 +5,8 @@ using DbManager.Generic;
 using Dto;
 using Logic.Generic;
 using Logic.Users;
-using Logic.Products;
-using Logic.ProductVersions;
+
+
 using Logic.Feats;
 using Logic.UserRoles;
 
@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Logic.ProductVersions;
 
 namespace Logic
 {
@@ -50,11 +51,9 @@ namespace Logic
             RepositoryRegistration(services); //Register Repositories
 
             services.AddScoped<IUserLogic, UserLogic>();
-            services.AddScoped<IProductLogic, ProductLogic>();
-            services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
             services.AddScoped<IUserRoleLogic, UserRoleLogic>();
             services.AddScoped<IFeatLogic, FeatLogic>();
-
+            services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
 
             services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();
             services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();

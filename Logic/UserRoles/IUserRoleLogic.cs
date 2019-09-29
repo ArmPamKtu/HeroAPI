@@ -10,5 +10,7 @@ namespace Logic.UserRoles
         ICollection<UserRoleDto> GetAll();
         ICollection<UserRoleDto> GetUserRoles(Guid guid);
         void Create(UserRoleDto userRoleDto);
+        bool Update(Guid id, UserRoleDto userRoleDto);
+        bool Delete(Guid id);
     }
 }

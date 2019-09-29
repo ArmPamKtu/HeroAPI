@@ -26,6 +26,13 @@ namespace Hero.Controllers
             return users;
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<ICollection<UserDto>> GetById(Guid id)
+        {
+            var users = _userLogic.GetUser(id).ToList();
+            return users;
+        }
+
         [HttpPost("logIn")]
         async public Task<ActionResult> Post([FromBody] UserDto userDto)
         {
@@ -36,12 +43,30 @@ namespace Hero.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ICollection<UserDto>> GetById(string id)
+        [HttpPut]
+        public ActionResult Update([FromBody] UserDto userDto)
         {
-            var users = _userLogic.GetAll().ToList();
-            return users;
+            //patikrinti ar tikrai tas vartotjas
+            bool update = _userLogic.Update(userDto.Id, userDto);
+            if (update == true)
+                return Ok();
+            else
+                return BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+
+            bool delete = _userLogic.Delete(id);
+            if (delete == true)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
+
+
 
     }
 }

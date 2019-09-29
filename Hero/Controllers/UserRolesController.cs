@@ -26,20 +26,43 @@ namespace Hero.Controllers
             return users;
         }
 
-        [HttpPost("logIn")]
-        async public Task<ActionResult> Post([FromBody] UserRoleDto userDto)
+        [HttpGet("{id}")]
+        public ActionResult<ICollection<UserRoleDto>> GetById(Guid id)
+        {
+            var users = _userRoleLogic.GetUserRoles(id).ToList();
+            return users;
+        }
+
+        [HttpPost]
+        async public Task<ActionResult> Post([FromBody] UserRoleDto userRoleDto)
         {
             // decryptinti reikes db ir susiuziureti ar yra toks vartotojas
-            var users = _userRoleLogic.GetAll().ToList();
+            _userRoleLogic.Create(userRoleDto);
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ICollection<UserRoleDto>> GetById(string id)
+        [HttpPut]
+        public ActionResult Update([FromBody] UserRoleDto userDto)
         {
-            var users = _userRoleLogic.GetAll().ToList();
-            return users;
+            //patikrinti ar tikrai tas vartotjas
+            bool update = _userRoleLogic.Update(userDto.UserGuid, userDto);
+            if (update == true)
+                return Ok();
+            else
+                return BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+
+            bool delete = _userRoleLogic.Delete(id);
+            if (delete == true)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
 
     }
 

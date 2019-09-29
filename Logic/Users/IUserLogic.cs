@@ -11,5 +11,7 @@ namespace Logic.Users
         void Create(UserDto userDto);
         ICollection<UserDto> GetAll();
         ICollection<UserDto> GetUser(Guid guid);
+        bool Update(Guid id, UserDto userRoleDto);
+        bool Delete(Guid id);
     }
 }

@@ -6,7 +6,7 @@ namespace Db.Entities
 {
     public class Product
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public int Quantity { get; set; }
         public bool IsInStore { get; set; }

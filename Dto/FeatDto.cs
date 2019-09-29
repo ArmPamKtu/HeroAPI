@@ -6,7 +6,7 @@ namespace Dto
 {
     public class FeatDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public Guid FromGuid { get; set; }
         public Guid ToUserGuid { get; set; }

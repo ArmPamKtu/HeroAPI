@@ -35,7 +35,6 @@ namespace Logic.ProductVersions
             version.Created = DateTime.Now;
             version.Description = combined.Description;
             version.Name = combined.Name;
-            version.Product = product;
             version.SoftDelete = combined.SoftDelete;
             version.UrlImg = combined.UrlImg;
             version.Product = product;

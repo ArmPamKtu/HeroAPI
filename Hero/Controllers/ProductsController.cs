@@ -1,5 +1,5 @@
 ﻿using Dto;
-
+using Logic.Exceptions;
 using Logic.ProductVersions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -48,6 +48,7 @@ namespace Hero.Controllers
             _productLogic.Create(fullproductDto);
             return Ok();
         }
+
 
         [HttpPut]
         public ActionResult Update([FromBody]  FullProductDto fullproductDto)

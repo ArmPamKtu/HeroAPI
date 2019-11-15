@@ -53,13 +53,14 @@ namespace Logic
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IUserRoleLogic, UserRoleLogic>();
             services.AddScoped<IFeatLogic, FeatLogic>();
-            services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
+            //services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
 
             services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();
             services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();
             services.AddScoped<ILogic<ProductDto>, GenericLogic<IRepository<Product>, ProductDto, Product>>();
             services.AddScoped<ILogic<ProductVersionDto>, GenericLogic<IRepository<ProductVersion>, ProductVersionDto, ProductVersion>>();
             services.AddScoped<ILogic<FeatDto>, GenericLogic<IRepository<Feat>, FeatDto, Feat>>();
+
         }
     }
 }

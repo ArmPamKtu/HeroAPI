@@ -32,12 +32,6 @@ namespace Hero
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //jwt set up
-         /*   var jwtSettings = new JwtSettings();
-            Configuration.Bind(nameof(jwtSettings), jwtSettings);
-            services.AddSingleton(jwtSettings);
-            services.AddScoped<IIdentityService, IdentityService>();
-            */
 
             services.AddCors(options =>
             {
@@ -49,30 +43,6 @@ namespace Hero
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-
-            //jwt set up
-           /* services.AddAuthentication(x =>
-                {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-               .AddJwtBearer(x =>
-               {
-                   x.SaveToken = true;
-                   x.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       ValidateIssuerSigningKey = true,
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-                       ValidateIssuer = false,
-                       ValidateAudience = false,
-                       RequireExpirationTime = false,
-                       ValidateLifetime = true
-                   };
-               });
-               */
-
 
             Logic.Startup.TypeRegistration(services, Configuration);
         }

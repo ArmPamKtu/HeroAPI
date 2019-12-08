@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Db.Migrations
 {
     [DbContext(typeof(HeroDbContext))]
-    [Migration("20190923131152_InitialCreate")]
+    [Migration("20191207152949_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

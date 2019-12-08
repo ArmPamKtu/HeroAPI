@@ -29,6 +29,15 @@ namespace Hero.Controllers
             return allProductsCombined;
         }
 
+        [HttpGet]
+        public ActionResult Getall()
+        {
+
+            Console.WriteLine("ahhhhhhhh");
+
+            return Ok();
+        }
+
         [HttpGet("specificProductVersion/{id}")]
         public ActionResult<ProductVersionDto> GetSpecificProductVersion(Guid id)
         {

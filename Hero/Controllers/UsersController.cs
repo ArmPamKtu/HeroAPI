@@ -19,6 +19,8 @@ namespace Hero.Controllers
             _userLogic = logic;
         }
 
+
+        /*
         [HttpGet]
         public ActionResult<ICollection<UserDto>> Get()
         {
@@ -66,7 +68,7 @@ namespace Hero.Controllers
         }
 
 
-
+    */
 
     }
 }

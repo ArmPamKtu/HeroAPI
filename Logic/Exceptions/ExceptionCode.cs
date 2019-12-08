@@ -16,6 +16,7 @@ namespace Logic.Exceptions
         InvalidFeatValue = 1009,
         Unauthorised = 1010,
         DuplicateProductNames = 1011,
-        ProductVersionDoesNotExist = 1012
+        ProductVersionDoesNotExist = 1012,
+        EmailAlreadyExists = 1013
     }
 }

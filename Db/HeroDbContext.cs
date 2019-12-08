@@ -2,16 +2,17 @@
 using Dto;
 using Db.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Db
 {
-    public class HeroDbContext : DbContext
+    public class HeroDbContext : IdentityDbContext
     {
         public HeroDbContext(DbContextOptions options) : base(options)
         {
         }
 
-        public DbSet<User> User { get; set; }
+       // public DbSet<User> User { get; set; }
         public DbSet<Feat> Feat { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductVersion> ProductVersion { get; set; }

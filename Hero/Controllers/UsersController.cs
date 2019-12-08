@@ -1,5 +1,7 @@
 ﻿using Dto;
 using Logic.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Hero.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -19,6 +22,17 @@ namespace Hero.Controllers
             _userLogic = logic;
         }
 
+        // POST api/users
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Post([FromBody]UserRegistrationDto user)
+        {
+            var success = await _userLogic.RegisterAsync(user);
+            if (success)
+                return Ok();
+
+            return BadRequest();
+        }
 
         /*
         [HttpGet]

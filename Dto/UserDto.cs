@@ -1,13 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dto
 {
     public class UserDto
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public string LastName { get; set; }
+        [Required]
+        public string Surname { get; set; }
+        [Required]
         public string Email { get; set; }
-        public string Password { get; set; }
     }
 }

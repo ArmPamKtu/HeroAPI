@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Logic.ProductVersions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Logic
 {
@@ -27,8 +28,8 @@ namespace Logic
         }
         private static void CreateMappings(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<User, UserDto>();
-          
+            cfg.CreateMap<User, UserDto>().ReverseMap();
+
             cfg.CreateMissingTypeMaps = true;
         }
 
@@ -45,9 +46,38 @@ namespace Logic
         {
             //TODO Change to UserSecret
             services.AddDbContext<HeroDbContext>(options => options.UseSqlServer(config["Connection"]));
-            services.BuildServiceProvider().GetService<HeroDbContext>().Database
 
+
+            services.AddIdentity<User, IdentityRole>()
+           .AddEntityFrameworkStores<HeroDbContext>().AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+
+
+
+            services.BuildServiceProvider().GetService<HeroDbContext>().Database
                 .Migrate(); // Automatic database migration to latest version
+
             RepositoryRegistration(services); //Register Repositories
 
             services.AddScoped<IUserLogic, UserLogic>();
@@ -56,7 +86,7 @@ namespace Logic
 
             services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
 
-            services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();
+           /* services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();*/
             services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();
             services.AddScoped<ILogic<ProductDto>, GenericLogic<IRepository<Product>, ProductDto, Product>>();
             services.AddScoped<ILogic<ProductVersionDto>, GenericLogic<IRepository<ProductVersion>, ProductVersionDto, ProductVersion>>();

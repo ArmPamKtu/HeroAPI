@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Db
 {
-    public class HeroDbContext : IdentityDbContext
+    public class HeroDbContext : IdentityDbContext<User>
     {
         public HeroDbContext(DbContextOptions options) : base(options)
         {
@@ -16,7 +16,6 @@ namespace Db
         public DbSet<Feat> Feat { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductVersion> ProductVersion { get; set; }
-        public DbSet<UserRole> UserRole { get; set; }
 
         /// <summary>
         ///     Add any Db Configurations here
@@ -28,7 +27,8 @@ namespace Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

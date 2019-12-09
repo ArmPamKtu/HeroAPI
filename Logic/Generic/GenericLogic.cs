@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DbManager.Generic;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace Logic.Generic
         where TEntity : class
     {
         protected TRepository Repository;
+        private static ILogger<GenericLogic<TRepository, TBusinessEntity, TEntity>> _logger;
 
-        public GenericLogic(TRepository repository)
+        public GenericLogic(TRepository repository, ILogger<GenericLogic<TRepository, TBusinessEntity, TEntity>> logger)
         {
             Repository = repository;
+            _logger = logger;
         }
 
         public virtual long Count()
@@ -24,7 +27,7 @@ namespace Logic.Generic
             return Repository.Count();
         }
 
-        public virtual void Create(TBusinessEntity entity)
+        public virtual TBusinessEntity Create(TBusinessEntity entity)
         {
             using (var scope = Repository.DatabaseFacade.BeginTransaction())
             {
@@ -34,10 +37,13 @@ namespace Logic.Generic
                     Repository.Create(item);
                     Repository.SaveChanges();
                     scope.Commit();
+                    var businessItem = Mapper.Map<TBusinessEntity>(item);
+                    return businessItem;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+                    throw e;
                 }
             }
         }

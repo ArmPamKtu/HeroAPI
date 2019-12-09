@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Logic.ProductVersions;
 using Microsoft.AspNetCore.Identity;
+using Logic.RefreshTokens;
+using Logic.Authentication;
 
 namespace Logic
 {
@@ -29,7 +31,7 @@ namespace Logic
         private static void CreateMappings(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<User, UserDto>().ReverseMap();
-
+            cfg.CreateMap<RefreshToken, RefreshTokenDto>().ReverseMap();
             cfg.CreateMissingTypeMaps = true;
         }
 
@@ -40,6 +42,8 @@ namespace Logic
             services.AddScoped<IRepository<Product>, GenericRepository<Product>>();
             services.AddScoped<IRepository<ProductVersion>, GenericRepository<ProductVersion>>();
             services.AddScoped<IRepository<Feat>, GenericRepository<Feat>>();
+
+            services.AddScoped<IRepository<RefreshToken>, GenericRepository<RefreshToken>>();
         }
 
         public static void TypeRegistration(IServiceCollection services, IConfiguration config)
@@ -74,7 +78,7 @@ namespace Logic
 
 
 
-
+            
             services.BuildServiceProvider().GetService<HeroDbContext>().Database
                 .Migrate(); // Automatic database migration to latest version
 
@@ -86,11 +90,15 @@ namespace Logic
 
             services.AddScoped<IProductVersionLogic, ProductVersionLogic>();
 
-           /* services.AddScoped<ILogic<UserDto>, GenericLogic<IRepository<User>, UserDto, User>>();*/
-            services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();
+            services.AddScoped<IRefreshTokenLogic, RefreshTokenLogic>();
+
+            services.AddScoped<IAuthenticationLogic, AuthenticationLogic>();
+          /*  services.AddScoped<ILogic<UserRoleDto>, GenericLogic<IRepository<UserRole>, UserRoleDto, UserRole>>();*/
             services.AddScoped<ILogic<ProductDto>, GenericLogic<IRepository<Product>, ProductDto, Product>>();
             services.AddScoped<ILogic<ProductVersionDto>, GenericLogic<IRepository<ProductVersion>, ProductVersionDto, ProductVersion>>();
             services.AddScoped<ILogic<FeatDto>, GenericLogic<IRepository<Feat>, FeatDto, Feat>>();
+
+
 
         }
     }

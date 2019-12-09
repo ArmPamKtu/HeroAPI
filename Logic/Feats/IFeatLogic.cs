@@ -9,7 +9,7 @@ namespace Logic.Feats
     {
         ICollection<FeatDto> GetAll();
         FeatDto GetById(Guid id);
-        void Create(FeatDto userRoleDto);
+        FeatDto Create(FeatDto userRoleDto);
         bool Update(Guid id, FeatDto userRoleDto);
         bool Delete(Guid id);
     }

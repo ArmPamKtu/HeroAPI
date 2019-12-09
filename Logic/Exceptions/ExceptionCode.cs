@@ -17,6 +17,17 @@ namespace Logic.Exceptions
         Unauthorised = 1010,
         DuplicateProductNames = 1011,
         ProductVersionDoesNotExist = 1012,
-        EmailAlreadyExists = 1013
+        EmailAlreadyExists = 1013,
+        EmailDoesNotExist = 1014,
+        IncorrectPassword = 1015,
+        InvalidToken = 1016,
+        TokenIsNotExpired = 1017,
+        RefreshTokenDoesNotExist = 1018,
+        RefreshTokenHasExpired = 1019,
+        RefreshTokenInvalidated = 1020,
+        RefreshTokenUsed = 1021,
+        RefreshTokenDoesNotMatchJWT = 1022,
+        UserDoesNotExist = 1023,
+        RoleDoesNotExist = 1024
     }
 }

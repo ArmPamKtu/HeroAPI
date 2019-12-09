@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hero.GlobalErrorHandling.Extensions;
 using Logic.Exceptions;
+using Logic.Users.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,48 @@ namespace Hero
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             Logic.Startup.TypeRegistration(services, Configuration);
+
+
+
+            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
+            var jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            var secret = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddSingleton(tokenValidationParameters);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = tokenValidationParameters;
+                x.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using Dto;
+using Hero.Extensions;
 using Logic.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hero.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -20,6 +21,66 @@ namespace Hero.Controllers
         public UsersController(IUserLogic logic)
         {
             _userLogic = logic;
+        }
+
+
+        // GET: api/users
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<ICollection<UserDto>> Get()
+        {
+            var users = await _userLogic.GetAsync();
+            return users;
+        }
+
+        // GET api/users/5
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<UserDto>> Get(string id)
+        {
+            var user = await _userLogic.GetByIdAsync(id);
+            if (user == null)
+                return NotFound();
+            return user;
+        }
+
+        // GET api/users/5
+        [HttpGet("myUser")]
+        public async Task<ActionResult<UserDto>> GetMyUser()
+        {
+            var userId = HttpContext.GetUserId();
+            var user = await _userLogic.GetByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+            return user;
+        }
+
+        // PUT api/users/{id}
+        [HttpPatch("{id}")]
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult> Patch(string id, [FromBody]UserPasswordUpdateDto user)
+        {
+            var userId = HttpContext.GetUserId();
+            if (id != userId)
+            {
+                return BadRequest();
+            }
+            var success = await _userLogic.UpdatePasswordAsync(userId, user);
+            if (success)
+                return Ok();
+            return NotFound();
+        }
+
+        // DELETE api/users/{id}
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var success = await _userLogic.DeleteAsync(id);
+
+            if (success)
+                return Ok();
+            return NotFound();
         }
 
         // POST api/users
@@ -33,56 +94,6 @@ namespace Hero.Controllers
 
             return BadRequest();
         }
-
-        /*
-        [HttpGet]
-        public ActionResult<ICollection<UserDto>> Get()
-        {
-            var users = _userLogic.GetAll().ToList();
-            return users;
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<ICollection<UserDto>> GetById(Guid id)
-        {
-            var users = _userLogic.GetUser(id).ToList();
-            return users;
-        }
-
-        [HttpPost("logIn")]
-        async public Task<ActionResult> Post([FromBody] UserDto userDto)
-        {
-            // decryptinti reikes db ir susiuziureti ar yra toks vartotojas
-
-
-            _userLogic.Create(userDto);
-            return Ok();
-        }
-
-        [HttpPut]
-        public ActionResult Update([FromBody] UserDto userDto)
-        {
-            //patikrinti ar tikrai tas vartotjas
-            bool update = _userLogic.Update(userDto.Id, userDto);
-            if (update == true)
-                return Ok();
-            else
-                return BadRequest();
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
-        {
-
-            bool delete = _userLogic.Delete(id);
-            if (delete == true)
-                return Ok();
-            else
-                return BadRequest();
-        }
-
-
-    */
 
     }
 }

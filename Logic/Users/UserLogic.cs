@@ -5,6 +5,7 @@ using Dto;
 using Logic.Exceptions;
 using Logic.Generic;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -42,22 +43,59 @@ namespace Logic.Users
             return true;
         }
 
-        /*
-
-        public ICollection<UserDto> GetUser(Guid guid)
+        public async Task<bool> UpdatePasswordAsync(string Id, UserPasswordUpdateDto request)
         {
-            var user = Repository.GetMany(x => x.Id == guid);
-            var mappedUser = Mapper.Map<List<UserDto>>(user);
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+                throw new BusinessException(ExceptionCode.UserDoesNotExist);
 
-            return mappedUser;
+            var userHasValidPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
+
+            if (!userHasValidPassword)
+                throw new BusinessException(ExceptionCode.IncorrectPassword);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public bool IsStoreManager(int i)
+        public async Task<bool> DeleteAsync(string Id)
         {
-            if(i > 0)
+            var existingUser = await _userManager.FindByIdAsync(Id);
+            if (existingUser == null)
+                throw new BusinessException(ExceptionCode.UserDoesNotExist);
+
+            var result = await _userManager.DeleteAsync(existingUser);
+
+            if (!result.Succeeded)
+            {
                 return false;
-            else
-                return true;
-        }*/
+            }
+            return true;
+        }
+
+        public async Task<ICollection<UserDto>> GetAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var mappedUsers = AutoMapper.Mapper.Map<ICollection<UserDto>>(users);
+
+            return mappedUsers;
+        }
+
+        public async Task<UserDto> GetByIdAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return null;
+            var mappedUser = AutoMapper.Mapper.Map<UserDto>(user);
+            return mappedUser;
+        }
     }
 }

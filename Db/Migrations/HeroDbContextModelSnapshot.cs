@@ -87,6 +87,34 @@ namespace Db.Migrations
                     b.ToTable("ProductVersion");
                 });
 
+            modelBuilder.Entity("Db.Entities.RefreshToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreationDate")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("ExpirationDate")
+                        .IsRequired();
+
+                    b.Property<bool>("Invalidated");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired();
+
+                    b.Property<bool>("Used");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Db.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -140,6 +168,31 @@ namespace Db.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Db.Entities.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Manager"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -264,6 +317,14 @@ namespace Db.Migrations
                     b.HasOne("Db.Entities.Product", "Product")
                         .WithMany("ProductVersion")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Db.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Db.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

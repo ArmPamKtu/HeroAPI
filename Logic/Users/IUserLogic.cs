@@ -9,13 +9,9 @@ namespace Logic.Users
     public interface IUserLogic
     {
         Task<bool> RegisterAsync(UserRegistrationDto request);
-
-        /*
-        bool IsStoreManager(int i);
-        void Create(UserDto userDto);
-        ICollection<UserDto> GetAll();
-        ICollection<UserDto> GetUser(Guid guid);
-        bool Update(Guid id, UserDto userRoleDto);
-        bool Delete(Guid id);*/
+        Task<bool> UpdatePasswordAsync(string Id, UserPasswordUpdateDto request);
+        Task<ICollection<UserDto>> GetAsync();
+        Task<bool> DeleteAsync(string id);
+        Task<UserDto> GetByIdAsync(string id);
     }
 }

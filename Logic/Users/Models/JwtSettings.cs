@@ -6,7 +6,7 @@ using System.Text;
 namespace Logic.Users.Models
 {
     [JsonObject("tokenManagement")]
-    class JwtSettings
+    public class JwtSettings
     {
         [JsonProperty("secret")]
         public string Secret { get; set; }

@@ -19,51 +19,22 @@ namespace Hero.Controllers
             _userRoleLogic = logic;
         }
 
-        [HttpGet]
-        public ActionResult<ICollection<UserRoleDto>> Get()
-        {
-            var users = _userRoleLogic.GetAll().ToList();
-            return users;
-        }
 
         [HttpGet("{id}")]
-        public ActionResult<ICollection<UserRoleDto>> GetById(Guid id)
+        public async Task<ActionResult<ICollection<string>>> Get(string id)
         {
-            var users = _userRoleLogic.GetUserRoles(id).ToList();
-            return users;
+            var roles = await _userRoleLogic.GetById(id);
+            if (roles == null)
+                return NotFound();
+            return Ok(roles);
         }
 
+        // POST api/userroles
         [HttpPost]
-        async public Task<ActionResult> Post([FromBody] UserRoleDto userRoleDto)
+        public async Task<IActionResult> Post([FromBody] UserRoleDto request)
         {
-            // decryptinti reikes db ir susiuziureti ar yra toks vartotojas
-            _userRoleLogic.Create(userRoleDto);
+            await _userRoleLogic.Create(request);
             return Ok();
         }
-
-        [HttpPut]
-        public ActionResult Update([FromBody] UserRoleDto userDto)
-        {
-            //patikrinti ar tikrai tas vartotjas
-            bool update = _userRoleLogic.Update(userDto.UserGuid, userDto);
-            if (update == true)
-                return Ok();
-            else
-                return BadRequest();
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
-        {
-
-            bool delete = _userRoleLogic.Delete(id);
-            if (delete == true)
-                return Ok();
-            else
-                return BadRequest();
-        }
-
-
     }
-
 }

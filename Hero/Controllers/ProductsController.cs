@@ -1,6 +1,8 @@
 ﻿using Dto;
 using Logic.Exceptions;
 using Logic.ProductVersions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hero.Controllers
 {
-   
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -29,16 +31,8 @@ namespace Hero.Controllers
             return allProductsCombined;
         }
 
-        [HttpGet]
-        public ActionResult Getall()
-        {
-
-            Console.WriteLine("ahhhhhhhh");
-
-            return Ok();
-        }
-
         [HttpGet("specificProductVersion/{id}")]
+        [Authorize(Roles = "Manager")]
         public ActionResult<ProductVersionDto> GetSpecificProductVersion(Guid id)
         {
          
@@ -48,18 +42,16 @@ namespace Hero.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         async public Task<ActionResult> Post([FromBody] FullProductDto fullproductDto)
         {
-
-            //split full into product and version, and add them
-
-
             _productLogic.Create(fullproductDto);
             return Ok();
         }
 
 
         [HttpPut]
+        [Authorize(Roles = "Manager")]
         public ActionResult Update([FromBody]  FullProductDto fullproductDto)
         {
 
@@ -69,6 +61,7 @@ namespace Hero.Controllers
         }
 
         [HttpDelete("deleteProductVersion/{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteProductVersion(Guid id)
         {
 

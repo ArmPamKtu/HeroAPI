@@ -8,17 +8,18 @@ using DbManager.Generic;
 using Dto;
 using Logic.Exceptions;
 using Logic.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Logic.Feats
 {
     public class FeatLogic : GenericLogic<IRepository<Feat>, FeatDto, Feat>, IFeatLogic
     {
-        public FeatLogic(IRepository<Feat> repository) : base(repository)
+        public FeatLogic(IRepository<Feat> repository, ILogger<FeatLogic> logger) : base(repository, logger)
         {
 
         }
 
-        public override void Create(FeatDto entity)
+        public override FeatDto Create(FeatDto entity)
         {
             using (var scope = Repository.DatabaseFacade.BeginTransaction())
             {
@@ -34,6 +35,8 @@ namespace Logic.Feats
                 Repository.SaveChanges();
                 scope.Commit();
             }
+
+            return entity;
         }
 
         private bool HasSentToColleagueThisMonth(Guid fromUserGuid, Guid toUserGuid)

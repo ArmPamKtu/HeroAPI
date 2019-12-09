@@ -6,9 +6,7 @@ namespace Dto
 {
     public class UserRoleDto
     {
-        public Guid UserGuid { get; set; }
-        public DateTime Created { get; set; }
-        public bool IsAdmin { get; set; }
-        public bool IsStoreManager { get; set; }
+        public string UserId { get; set; }
+        public string IdentityRoleId { get; set; }
     }
 }

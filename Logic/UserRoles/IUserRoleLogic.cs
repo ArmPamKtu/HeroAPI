@@ -2,15 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Logic.UserRoles
 {
     public interface IUserRoleLogic
     {
-        ICollection<UserRoleDto> GetAll();
-        ICollection<UserRoleDto> GetUserRoles(Guid guid);
-        void Create(UserRoleDto userRoleDto);
-        bool Update(Guid id, UserRoleDto userRoleDto);
-        bool Delete(Guid id);
+        Task<bool> Create(UserRoleDto request);
+
+        Task<bool> IsAdmin(string id);
+
+        Task<bool> IsManager(string id);
+        Task<ICollection<string>> GetById(string id);
     }
 }

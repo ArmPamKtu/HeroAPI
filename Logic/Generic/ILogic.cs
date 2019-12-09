@@ -7,7 +7,7 @@ namespace Logic.Generic
     public interface ILogic<TEntity> where TEntity : class
     {
         long Count();
-        void Create(TEntity entity);
+        TEntity Create(TEntity entity);
         bool Delete(int entityId);
         bool Delete(Guid entityId);
         ICollection<TEntity> GetAll();
@@ -20,8 +20,8 @@ namespace Logic.Generic
     public interface ICollectionLogic<TEntity> : ILogic<TEntity>
         where TEntity : class
     {
-        void Create(ICollection<TEntity> entities);
-        bool Delete(List<int> entityIds);
-        bool Update(ICollection<TEntity> entities);
+        //void Create(ICollection<TEntity> entities);
+        //bool Delete(List<int> entityIds);
+        //bool Update(ICollection<TEntity> entities);
     }
 }

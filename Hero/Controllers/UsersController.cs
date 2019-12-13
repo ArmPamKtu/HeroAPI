@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Logic.Exceptions;
 
 namespace Hero.Controllers
 {
@@ -39,9 +40,12 @@ namespace Hero.Controllers
         public async Task<ActionResult<UserDto>> Get(string id)
         {
             var user = await _userLogic.GetByIdAsync(id);
+
             if (user == null)
                 return NotFound();
             return user;
+            
+            
         }
 
         // GET api/users/5
@@ -93,6 +97,19 @@ namespace Hero.Controllers
                 return Ok();
 
             return BadRequest();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Post()
+        {
+            await _userLogic.UsersExist();
+
+           /* var success = await _userLogic.UsersExist();
+            if (success)*/
+                return Ok();
+
+           /* return BadRequest();*/
         }
 
     }

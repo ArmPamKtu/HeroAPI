@@ -28,7 +28,6 @@ namespace Logic.UserRoles
         {
             var user = await GetUser(request.UserId);
 
-
             var role = await GetRole(request.IdentityRoleId);
        
             var result = await _userManager.AddToRoleAsync(user, role.Name);
@@ -51,16 +50,26 @@ namespace Logic.UserRoles
 
         public async Task<bool> IsAdmin(string id)
         {
-            var roles = await GetById(id);
-            var isAdmin = roles.Contains(UserRoleTypes.Admin.ToString());
-            return isAdmin;
+            if (id != "")
+            {
+                var roles = await GetById(id);
+                var isAdmin = roles.Contains(UserRoleTypes.Admin.ToString());
+                return isAdmin;
+            }
+
+            return false;
         }
 
         public async Task<bool> IsManager(string id)
         {
-            var roles = await GetById(id);
-            var isManager = roles.Contains(UserRoleTypes.Manager.ToString());
-            return isManager;
+            if (!string.IsNullOrEmpty(id))
+            {
+                var roles = await GetById(id);
+                var isManager = roles.Contains(UserRoleTypes.Manager.ToString());
+                return isManager;
+            }
+
+            return false;
         }
 
         public async Task<ICollection<string>> GetById(string id)

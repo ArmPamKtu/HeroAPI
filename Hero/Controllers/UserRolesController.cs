@@ -1,4 +1,5 @@
 ﻿using Dto;
+using Hero.Extensions;
 using Logic.UserRoles;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,6 +36,30 @@ namespace Hero.Controllers
         {
             await _userRoleLogic.Create(request);
             return Ok();
+        }
+
+        [HttpGet("isAdmin")]
+        public async Task<bool> IsAdmin()
+        {
+            var userId = HttpContext.GetUserId();
+
+            var isadmin = await _userRoleLogic.IsAdmin(userId);
+            if(isadmin)
+                return true;
+            else
+                return false;
+        }
+
+        [HttpGet("isManager")]
+        public async Task<bool> IsManager()
+        {
+            var userId = HttpContext.GetUserId();
+
+            var isadmin = await _userRoleLogic.IsManager(userId);
+            if (isadmin)
+                return true;
+            else
+                return false;
         }
     }
 }

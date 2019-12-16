@@ -26,11 +26,11 @@ namespace Db.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<Guid>("FromGuid");
+                    b.Property<string>("FromUser");
 
                     b.Property<string>("Reason");
 
-                    b.Property<Guid>("ToUserGuid");
+                    b.Property<string>("ToUser");
 
                     b.Property<string>("UserId");
 

@@ -8,9 +8,9 @@ namespace Logic.Feats
     public interface IFeatLogic
     {
         ICollection<FeatDto> GetAll();
-        FeatDto GetById(Guid id);
+        FeatDto GetById(string id);
         FeatDto Create(FeatDto userRoleDto);
-        bool Update(Guid id, FeatDto userRoleDto);
-        bool Delete(Guid id);
+       /* bool Update(string id, FeatDto userRoleDto);
+        bool Delete(string id);*/
     }
 }

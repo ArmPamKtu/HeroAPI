@@ -189,8 +189,8 @@ namespace Db.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
-                    FromGuid = table.Column<Guid>(nullable: false),
-                    ToUserGuid = table.Column<Guid>(nullable: false),
+                    FromUser = table.Column<string>(nullable: true),
+                    ToUser = table.Column<string>(nullable: true),
                     Value = table.Column<int>(nullable: false),
                     Reason = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)

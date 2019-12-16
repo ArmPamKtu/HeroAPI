@@ -24,6 +24,7 @@ namespace Hero.Controllers
         }
 
         [HttpGet("storeItems")]
+        [AllowAnonymous]
         public ActionResult<ICollection<FullProductDto>> GetStoreItems()
         {
             var allProductsCombined = (List<FullProductDto>)_productLogic.GetAllCombined();
@@ -61,7 +62,7 @@ namespace Hero.Controllers
         }
 
         [HttpDelete("deleteProductVersion/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public ActionResult DeleteProductVersion(Guid id)
         {
 

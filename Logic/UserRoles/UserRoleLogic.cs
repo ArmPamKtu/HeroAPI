@@ -26,6 +26,11 @@ namespace Logic.UserRoles
 
         public async Task<bool> Create(UserRoleDto request)
         {
+            
+            /* padarius nauja db, reikia manually prideti
+            await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            await _roleManager.CreateAsync(new IdentityRole("Manager"));*/
+
             var user = await GetUser(request.UserId);
 
             var role = await GetRole(request.IdentityRoleId);

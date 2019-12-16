@@ -7,7 +7,7 @@ using Db.Helpers;
 
 namespace Db
 {
-    public class HeroDbContext : IdentityDbContext
+    public class HeroDbContext : IdentityDbContext<User>
     {
         public HeroDbContext(DbContextOptions options) : base(options)
         {

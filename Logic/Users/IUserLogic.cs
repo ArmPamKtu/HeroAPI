@@ -13,6 +13,5 @@ namespace Logic.Users
         Task<ICollection<UserDto>> GetAsync();
         Task<bool> DeleteAsync(string id);
         Task<UserDto> GetByIdAsync(string id);
-        Task<bool> UsersExist();
     }
 }

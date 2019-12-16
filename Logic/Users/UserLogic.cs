@@ -97,16 +97,5 @@ namespace Logic.Users
             var mappedUser = AutoMapper.Mapper.Map<UserDto>(user);
             return mappedUser;
         }
-
-        public async Task<bool> UsersExist()
-        {
-            var users = await _userManager.Users.ToListAsync();
-
-            if (users != null)
-                return true;
-            else
-                throw new BusinessException(ExceptionCode.Unhandled);
-
-        }
     }
 }

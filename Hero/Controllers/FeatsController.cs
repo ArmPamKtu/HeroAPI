@@ -27,7 +27,7 @@ namespace Hero.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<FeatDto> GetById(Guid id)
+        public ActionResult<FeatDto> GetById(string id)
         {
             var feat = _featLogic.GetById(id);
             return feat;
@@ -41,7 +41,7 @@ namespace Hero.Controllers
             return Ok();
         }
 
-        [HttpPut]
+      /*  [HttpPut]
         public ActionResult Update([FromBody] FeatDto featDto)
         {
             
@@ -53,7 +53,7 @@ namespace Hero.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(string id)
         {
 
             bool delete = _featLogic.Delete(id);
@@ -62,6 +62,6 @@ namespace Hero.Controllers
             else
                 return BadRequest();
         }
-
+        */
     }
 }

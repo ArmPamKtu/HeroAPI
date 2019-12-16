@@ -23,12 +23,9 @@ namespace Logic.Feats
         {
             using (var scope = Repository.DatabaseFacade.BeginTransaction())
             {
-                if (entity.FromGuid == entity.ToUserGuid)
-                    throw new BusinessException(ExceptionCode.SendingFeatsToYourself);
+                if (entity.FromUser.Equals(entity.ToUser))
+                    throw new BusinessException(ExceptionCode.SendingFeatsToYourself);     
 
-                var hasSentHugsToColleague = HasSentToColleagueThisMonth(entity.FromGuid, entity.ToUserGuid);
-                if (hasSentHugsToColleague)
-                    throw new BusinessException(ExceptionCode.FeatAlreadySentToThisUser);
 
                 var item = Mapper.Map<Feat>(entity);
                 Repository.Create(item);
@@ -39,13 +36,14 @@ namespace Logic.Feats
             return entity;
         }
 
-        private bool HasSentToColleagueThisMonth(Guid fromUserGuid, Guid toUserGuid)
+        public FeatDto GetById(string id)
         {
-            var feats = Repository.GetMany(x => x.FromGuid == fromUserGuid && x.ToUserGuid == toUserGuid && x.Created.Month.Equals(DateTime.Now.Month));
-            var featsCount = feats.Sum(x => x.Value);
-            if (featsCount >= 1)
-                return true;
-            return false;
+
+            var feat = Repository.GetByID(id);
+
+            var mappedData = Mapper.Map<FeatDto>(feat);
+
+            return mappedData;
         }
     }
 }

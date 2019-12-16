@@ -98,19 +98,5 @@ namespace Hero.Controllers
 
             return BadRequest();
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Post()
-        {
-            await _userLogic.UsersExist();
-
-           /* var success = await _userLogic.UsersExist();
-            if (success)*/
-                return Ok();
-
-           /* return BadRequest();*/
-        }
-
     }
 }

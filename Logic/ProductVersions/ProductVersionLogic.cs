@@ -31,6 +31,7 @@ namespace Logic.ProductVersions
             
             if (_productVersionRepository.Count() > 0)
             {
+                
                 var sameNameProductVersion = _productVersionRepository.GetMany(x => x.Name.Equals(combined.Name) && !x.SoftDelete && !Guid.Equals(x.Id, combined.ProductVersionId));
 
                 if (sameNameProductVersion.Count() != 0)
@@ -66,7 +67,7 @@ namespace Logic.ProductVersions
 
             using (var scope = _productVersionRepository.DatabaseFacade.BeginTransaction())
             {
-                var productId = _productVersionRepository.GetAll().ToList();
+
                 var sameNameProductVersion = _productVersionRepository.GetMany(x => x.Name.Equals(combined.Name) && x.SoftDelete == false && x.Id != combined.ProductVersionId);
 
                 if (sameNameProductVersion.Count() != 0)

@@ -45,5 +45,45 @@ namespace Logic.Feats
 
             return mappedData;
         }
+
+        public bool Delete(string entityId)
+        {
+            var success = false;
+            if (entityId != null)
+                using (var scope = Repository.DatabaseFacade.BeginTransaction())
+                {
+                    var item = Repository.GetByID(entityId);
+                    if (item != null)
+                    {
+                        Repository.Delete(item);
+                        Repository.SaveChanges();
+                        scope.Commit();
+                        success = true;
+                    }
+                }
+
+            return success;
+        }
+
+        public bool Update(Guid entityId, FeatDto entity)
+        {
+            var success = false;
+            if (entity != null)
+                using (var scope = Repository.DatabaseFacade.BeginTransaction())
+                {
+                    var product = Repository.GetByID(entityId);
+                    if (product != null)
+                    {
+                        var item = Mapper.Map(entity, product);
+                        Repository.Update(item);
+                        Repository.SaveChanges();
+                        scope.Commit();
+                        success = true;
+                    }
+                }
+
+            return success;
+        }
+
     }
 }

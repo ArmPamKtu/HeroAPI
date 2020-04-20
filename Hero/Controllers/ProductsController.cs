@@ -46,6 +46,8 @@ namespace Hero.Controllers
         [Authorize(Roles = "Manager")]
         async public Task<ActionResult> Post([FromBody] FullProductDto fullproductDto)
         {
+            fullproductDto.ProductCreated = DateTime.Now;
+            fullproductDto.ProductVersionCreated = DateTime.Now;
             _productLogic.Create(fullproductDto);
             return Ok();
         }

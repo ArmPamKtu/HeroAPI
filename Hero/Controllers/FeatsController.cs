@@ -36,15 +36,16 @@ namespace Hero.Controllers
         [HttpPost]
         async public Task<ActionResult> Post([FromBody] FeatDto featDto)
         {
-            
+            featDto.Created = DateTime.Now;
             _featLogic.Create(featDto);
             return Ok();
         }
 
-      /*  [HttpPut]
+        
+        [HttpPut]
         public ActionResult Update([FromBody] FeatDto featDto)
         {
-            
+            featDto.Created = DateTime.Now;
             bool update = _featLogic.Update(featDto.Id, featDto);
             if (update == true)
                 return Ok();
@@ -53,7 +54,7 @@ namespace Hero.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(Guid id)
         {
 
             bool delete = _featLogic.Delete(id);
@@ -62,6 +63,6 @@ namespace Hero.Controllers
             else
                 return BadRequest();
         }
-        */
+        
     }
 }

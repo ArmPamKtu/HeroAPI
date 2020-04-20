@@ -10,7 +10,8 @@ namespace Logic.Feats
         ICollection<FeatDto> GetAll();
         FeatDto GetById(string id);
         FeatDto Create(FeatDto userRoleDto);
-       /* bool Update(string id, FeatDto userRoleDto);
-        bool Delete(string id);*/
+        bool Delete(Guid entityId);
+        bool Update(Guid entityId, FeatDto entity);
+
     }
 }
